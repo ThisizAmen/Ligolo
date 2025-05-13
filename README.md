@@ -1,0 +1,2 @@
+# Ligolo
+Ligolo Proxy Setup
