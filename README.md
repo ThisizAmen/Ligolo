@@ -1,10 +1,9 @@
-# Ligolo proxy setup
- 
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&duration=4000&pause=1&color=FFFFFF&multiline=true&width=485&height=80&lines=%E2%94%8C%E2%94%80%E2%94%80(ThisizAmen%E3%89%BFKaniber)-%5B%2F%5D;%E2%94%94%E2%94%80%23+Ligolo+Proxy+Setup)](https://git.io/typing-svg)  
 ----------------------------------------------------------------------------------------------------------------------------
 
 First of all we need to download 2 executables;
-	1. Ligolo Agent
-	2. Ligolo Proxy
+1. Ligolo Agent
+2. Ligolo Proxy
 
 Proxy Download
 ```bash
