@@ -113,3 +113,8 @@ You have now successfully set up the Ligolo Proxy and Agent, allowing access to 
 - Check firewall rules if any traffic is being blocked.
 - Ensure that the correct paths for executables are set in the commands.
 
+---
+
+## About the Author
+
+Hi, I am **Amin Gurbanli**. If you have any questions or need further assistance, feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/amin-gurbanli/).
